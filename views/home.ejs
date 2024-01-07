@@ -28,7 +28,20 @@
                     <button type="submit">Generate</button>
                 </form>
             </div>
+            <style>
+                table {
+                    border-collapse: collapse;
+                    width: 100%;
+                }
 
+                th,
+                td {
+                    padding: 8px;
+                    /* Adjust the padding to create space */
+                    text-align: left;
+                    border-bottom: 1px solid #ddd;
+                }
+            </style>
             <div>
                 <% if (locals.urls) { %>
                     <table>
@@ -38,11 +51,12 @@
                                 <th>ShortID</th>
                                 <th>Redirect</th>
                                 <th>Clicks</th>
+                                <th>Delete</th>
                             </tr>
                         </thead>
                         <tbody>
                             <% urls.forEach((url, index)=> { %>
-                                <tr>
+                                <tr></form>
                                     <td>
                                         <%= index + 1 %>
                                     </td>
@@ -55,6 +69,11 @@
                                     <td>
                                         <%= url.visithistory.length %>
                                     </td>
+                                    <form method="delete" action="/url">
+                                        <td>
+                                            <button type="delete" name="shorturl">delete</button>
+                                        </td>
+                                    </form>
                                 </tr>
                                 <% }) %>
                         </tbody>

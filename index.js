@@ -5,7 +5,7 @@ const staticroute = require("./routes/staticroute");
 const url = require("./models/url-model");
 const path = require("path");
 const app = express();
-const port = 8001;
+const port = 3000;
 
 app.set("view engine", "ejs");
 app.set("views", path.resolve("./views"));
@@ -16,14 +16,15 @@ connectdatabase(
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
 app.use("/", staticroute);
 app.use("/url", urlroute);
 app.get("/:sortid", async (req, res) => {
-  let sortid = req.params.sortid;
-  // console.log(sortid);
+  let shorturl = req.params.sortid;
+  // console.log(shorturl);
   let entry = await url.findOneAndUpdate(
     {
-      sortid,
+      shorturl,
     },
     {
       $push: {
@@ -31,6 +32,7 @@ app.get("/:sortid", async (req, res) => {
       },
     }
   );
+  // console.log(entry.redirecturl);
   res.redirect(entry.redirecturl);
 });
 

@@ -3,6 +3,7 @@ const {
   shorturlgenerator,
   analytic,
   geturl,
+  deleteurl,
 } = require("../controller/url-controller");
 
 const router = express.Router();
@@ -10,5 +11,6 @@ const router = express.Router();
 router.post("/", shorturlgenerator);
 router.get("/analytic/:sortid", analytic);
 router.get("/geturl", geturl);
+router.delete("/:sortid", deleteurl);
 
 module.exports = router;
