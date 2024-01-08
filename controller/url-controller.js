@@ -3,19 +3,24 @@ const url = require("../models/url-model");
 // const { shortid } = require("shortid");
 
 async function shorturlgenerator(req, res) {
-  // console.log("hiii....");
   const body = req.body;
   if (!body.url) res.status(400).json({ err: "invalid url" });
   const sortid = shortid();
-  // console.log(body.url);
   await url.create({
     shorturl: sortid,
     redirecturl: body.url,
     visithistory: [],
   });
-  return res.render("home", {
-    id: sortid,
-  });
+  const allurls = await url.find({});
+  return res.render(
+    "home",
+    {
+      id: sortid,
+    },
+    {
+      urls: allurls,
+    }
+  );
   // return res.json({ id: sortid, originalurl: body.url });
 }
 
@@ -27,8 +32,8 @@ async function analytic(req, res) {
       Number_of_time_visited: data.visithistory.length,
       visit_history: data.visithistory,
     });
-  }else{
-    res.send("INVALID URL!!")
+  } else {
+    res.send("INVALID URL!!");
   }
 }
 
@@ -42,12 +47,17 @@ async function geturl(req, res) {
 }
 
 async function deleteurl(req, res) {
-  let shorturl = req.params.sortid;
-  let data = await url.findOneAndDelete({ shorturl });
+  let shorturl = req.query.ShortID;
+  // console.log(shorturl);
+  let data = await url.findOneAndDelete(shorturl);
+  const allurls = await url.find({});
   if (data) {
-    res.send("URL deleted sucessfully");
+    console.log("URL deleted sucessfully");
   } else {
-    res.send("INVALID URL!!!");
+    console.log("INVALID URL!!!");
   }
+  return res.render("home", {
+    urls : allurls,
+  });
 }
 module.exports = { shorturlgenerator, analytic, geturl, deleteurl };

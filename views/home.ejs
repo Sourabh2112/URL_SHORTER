@@ -17,7 +17,7 @@
     <h1>URL Shortener</h1>
 
     <% if (locals.id) { %>
-        <p>URL Generated: http://localhost:8001/url/<%= id %>
+        <p>URL Deleted: http://localhost:8001/url/<%= id %>
         </p>
         <% } %>
 
@@ -26,6 +26,13 @@
                     <label>Enter Your Original URL</label>
                     <input type="text" name="url" placeholder="https://example" />
                     <button type="submit">Generate</button>
+                </form>
+            </div>
+            <div>
+                <form method="get" action="/url/delete">
+                    <label>Enter ShortID to delete</label>
+                    <input type="text" name="ShortID" placeholder="23noif_d2" />
+                    <button type="submit">Delete</button>
                 </form>
             </div>
             <style>
@@ -51,12 +58,13 @@
                                 <th>ShortID</th>
                                 <th>Redirect</th>
                                 <th>Clicks</th>
-                                <th>Delete</th>
+                                <!-- <th>Delete</th> -->
                             </tr>
                         </thead>
                         <tbody>
                             <% urls.forEach((url, index)=> { %>
-                                <tr></form>
+                                <tr>
+                                    </form>
                                     <td>
                                         <%= index + 1 %>
                                     </td>
@@ -69,11 +77,12 @@
                                     <td>
                                         <%= url.visithistory.length %>
                                     </td>
-                                    <form method="delete" action="/url">
+                                    <!-- <form method="delete" action="/url">
+                                        <input type="hidden" name="shorturl" value=url.shorturl>
                                         <td>
-                                            <button type="delete" name="shorturl">delete</button>
+                                            <button type="delete">delete</button>
                                         </td>
-                                    </form>
+                                    </form> -->
                                 </tr>
                                 <% }) %>
                         </tbody>

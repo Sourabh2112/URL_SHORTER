@@ -11,6 +11,6 @@ const router = express.Router();
 router.post("/", shorturlgenerator);
 router.get("/analytic/:sortid", analytic);
 router.get("/geturl", geturl);
-router.delete("/:sortid", deleteurl);
+router.get("/delete", deleteurl);
 
 module.exports = router;
