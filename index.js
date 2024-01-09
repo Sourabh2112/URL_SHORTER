@@ -19,8 +19,8 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use("/", staticroute);
 app.use("/url", urlroute);
-app.get("/redirect/:sortid", async (req, res) => {
-  let shorturl = req.params.sortid;
+app.get("/redirect", async (req, res) => {
+  let shorturl = req.query.ShortID;
   // console.log(shorturl);
   let entry = await url.findOneAndUpdate(
     {

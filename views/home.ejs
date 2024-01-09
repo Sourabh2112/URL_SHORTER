@@ -40,6 +40,7 @@
         }
 
         input[type="text"],
+        input[type="id"],
         button[type="submit"] {
             padding: 8px;
             border: 1px solid #ccc;
@@ -49,6 +50,23 @@
 
         input[type="text"] {
             width: 100%;
+        }
+
+        .form-group {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .form-group input[type="id"] {
+            width: 45%;
+            margin-right: 10px;
+        }
+
+        .form-group button[type="submit"] {
+            flex: 0 0 auto;
+            width: 15%;
         }
 
         button[type="submit"] {
@@ -89,21 +107,22 @@
     <h1>URL Shortener</h1>
 
     <div class="container">
-        <% if (locals.id) { %>
-            <p>URL Deleted: http://localhost:8001/url/<%= id %>
-            </p>
-        <% } %>
-
         <form method="POST" action="/url">
             <label>Enter Your Original URL</label>
             <input type="text" name="url" placeholder="https://example" />
             <button type="submit">Generate</button>
         </form>
 
-        <form method="get" action="/url/delete">
-            <label>Enter ShortID to delete</label>
-            <input type="text" name="ShortID" placeholder="23noif_d2" />
+        <form method="get" action="/url/delete" class="form-group">
+            <label>Enter ShortID to Delete</label>
+            <input type="id" name="ShortID" placeholder="23noif_d2" />
             <button type="submit">Delete</button>
+        </form>
+
+        <form method="get" action="/redirect" class="form-group">
+            <label>Enter ShortID to Redirect</label>
+            <input type="id" name="ShortID" placeholder="23noif_d2" />
+            <button type="submit">Redirect</button>
         </form>
 
         <% if (locals.urls) { %>
@@ -117,17 +136,25 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <% urls.forEach((url, index) => { %>
+                    <% urls.forEach((url, index)=> { %>
                         <tr>
-                            <td><%= index + 1 %></td>
-                            <td><%= url.shorturl %></td>
-                            <td><%= url.redirecturl %></td>
-                            <td><%= url.visithistory.length %></td>
+                            <td>
+                                <%= index + 1 %>
+                            </td>
+                            <td>
+                                <%= url.shorturl %>
+                            </td>
+                            <td>
+                                <%= url.redirecturl %>
+                            </td>
+                            <td>
+                                <%= url.visithistory.length %>
+                            </td>
                         </tr>
-                    <% }) %>
+                        <% }) %>
                 </tbody>
             </table>
-        <% } %>
+            <% } %>
     </div>
 </body>
 

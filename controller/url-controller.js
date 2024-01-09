@@ -15,9 +15,6 @@ async function shorturlgenerator(req, res) {
   return res.render(
     "home",
     {
-      id: sortid,
-    },
-    {
       urls: allurls,
     }
   );
@@ -48,14 +45,14 @@ async function geturl(req, res) {
 
 async function deleteurl(req, res) {
   let shorturl = req.query.ShortID;
-  // console.log(shorturl);
-  let data = await url.findOneAndDelete(shorturl);
-  const allurls = await url.find({});
+  console.log(shorturl);
+  let data = await url.findOneAndDelete({shorturl});
   if (data) {
     console.log("URL deleted sucessfully");
   } else {
     console.log("INVALID URL!!!");
   }
+  const allurls = await url.find({});
   return res.render("home", {
     urls : allurls,
   });
