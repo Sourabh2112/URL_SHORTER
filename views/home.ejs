@@ -5,10 +5,82 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home Page</title>
+    <title>URL Shortener</title>
     <style>
         body {
             font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f2f2f2;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        form {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            color: #333;
+        }
+
+        input[type="text"],
+        button[type="submit"] {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+        }
+
+        button[type="submit"] {
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #e0e0e0;
         }
     </style>
 </head>
@@ -16,80 +88,47 @@
 <body>
     <h1>URL Shortener</h1>
 
-    <% if (locals.id) { %>
-        <p>URL Deleted: http://localhost:8001/url/<%= id %>
-        </p>
+    <div class="container">
+        <% if (locals.id) { %>
+            <p>URL Deleted: http://localhost:8001/url/<%= id %>
+            </p>
         <% } %>
 
-            <div>
-                <form method="POST" action="/url">
-                    <label>Enter Your Original URL</label>
-                    <input type="text" name="url" placeholder="https://example" />
-                    <button type="submit">Generate</button>
-                </form>
-            </div>
-            <div>
-                <form method="get" action="/url/delete">
-                    <label>Enter ShortID to delete</label>
-                    <input type="text" name="ShortID" placeholder="23noif_d2" />
-                    <button type="submit">Delete</button>
-                </form>
-            </div>
-            <style>
-                table {
-                    border-collapse: collapse;
-                    width: 100%;
-                }
+        <form method="POST" action="/url">
+            <label>Enter Your Original URL</label>
+            <input type="text" name="url" placeholder="https://example" />
+            <button type="submit">Generate</button>
+        </form>
 
-                th,
-                td {
-                    padding: 8px;
-                    /* Adjust the padding to create space */
-                    text-align: left;
-                    border-bottom: 1px solid #ddd;
-                }
-            </style>
-            <div>
-                <% if (locals.urls) { %>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>S. No</th>
-                                <th>ShortID</th>
-                                <th>Redirect</th>
-                                <th>Clicks</th>
-                                <!-- <th>Delete</th> -->
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <% urls.forEach((url, index)=> { %>
-                                <tr>
-                                    </form>
-                                    <td>
-                                        <%= index + 1 %>
-                                    </td>
-                                    <td>
-                                        <%= url.shorturl %>
-                                    </td>
-                                    <td>
-                                        <%= url.redirecturl %>
-                                    </td>
-                                    <td>
-                                        <%= url.visithistory.length %>
-                                    </td>
-                                    <!-- <form method="delete" action="/url">
-                                        <input type="hidden" name="shorturl" value=url.shorturl>
-                                        <td>
-                                            <button type="delete">delete</button>
-                                        </td>
-                                    </form> -->
-                                </tr>
-                                <% }) %>
-                        </tbody>
-                    </table>
-                    <% } %>
-            </div>
+        <form method="get" action="/url/delete">
+            <label>Enter ShortID to delete</label>
+            <input type="text" name="ShortID" placeholder="23noif_d2" />
+            <button type="submit">Delete</button>
+        </form>
 
+        <% if (locals.urls) { %>
+            <table>
+                <thead>
+                    <tr>
+                        <th>S. No</th>
+                        <th>ShortID</th>
+                        <th>Redirect</th>
+                        <th>Clicks</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% urls.forEach((url, index) => { %>
+                        <tr>
+                            <td><%= index + 1 %></td>
+                            <td><%= url.shorturl %></td>
+                            <td><%= url.redirecturl %></td>
+                            <td><%= url.visithistory.length %></td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        <% } %>
+    </div>
 </body>
 
 </html>
