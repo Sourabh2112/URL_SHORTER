@@ -2,6 +2,7 @@ const express = require("express");
 const { connectdatabase } = require("./connect");
 const urlroute = require("./routes/url-route");
 const staticroute = require("./routes/staticroute");
+const userRoute = require("./routes/user-route");
 const url = require("./models/url-model");
 const path = require("path");
 const app = express();
@@ -19,6 +20,7 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use("/", staticroute);
 app.use("/url", urlroute);
+app.use("/user", userRoute);
 app.get("/redirect", async (req, res) => {
   let shorturl = req.query.ShortID;
   // console.log(shorturl);
