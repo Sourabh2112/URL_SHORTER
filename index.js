@@ -1,10 +1,15 @@
 const express = require("express");
 const { connectdatabase } = require("./connect");
+const { restrictToLoggedinUserOnly, checkAuth } = require("./middlewares/auth");
+const cookieParser = require("cookie-parser");
+
 const urlroute = require("./routes/url-route");
 const staticroute = require("./routes/staticroute");
 const userRoute = require("./routes/user-route");
+
 const url = require("./models/url-model");
 const path = require("path");
+
 const app = express();
 const port = 3000;
 
@@ -17,10 +22,12 @@ connectdatabase(
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
 
-app.use("/", staticroute);
-app.use("/url", urlroute);
+app.use("/", checkAuth, staticroute);
+app.use("/url", restrictToLoggedinUserOnly, urlroute);
 app.use("/user", userRoute);
+
 app.get("/redirect", async (req, res) => {
   let shorturl = req.query.ShortID;
   // console.log(shorturl);
