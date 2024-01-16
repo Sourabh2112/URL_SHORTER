@@ -1,6 +1,6 @@
 const express = require("express");
 const { connectdatabase } = require("./connect");
-const { restrictToLoggedinUserOnly, checkAuth } = require("./middlewares/auth");
+const { restrictToLoggedinUserOnly, checkAuth } = require("./middleware/auth");
 const cookieParser = require("cookie-parser");
 
 const urlroute = require("./routes/url-route");
