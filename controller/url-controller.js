@@ -9,15 +9,13 @@ async function shorturlgenerator(req, res) {
   await url.create({
     shorturl: sortid,
     redirecturl: body.url,
+    createdBy: req.user._id,
     visithistory: [],
   });
-  const allurls = await url.find({});
-  return res.render(
-    "home",
-    {
-      urls: allurls,
-    }
-  );
+  const allurls = await url.find({ createdBy: req.user._id });
+  return res.render("home", {
+    urls: allurls,
+  });
   // return res.json({ id: sortid, originalurl: body.url });
 }
 
@@ -46,7 +44,7 @@ async function geturl(req, res) {
 async function deleteurl(req, res) {
   let shorturl = req.query.ShortID;
   console.log(shorturl);
-  let data = await url.findOneAndDelete({shorturl});
+  let data = await url.findOneAndDelete({ shorturl });
   if (data) {
     console.log("URL deleted sucessfully");
   } else {
@@ -54,7 +52,7 @@ async function deleteurl(req, res) {
   }
   const allurls = await url.find({});
   return res.render("home", {
-    urls : allurls,
+    urls: allurls,
   });
 }
 module.exports = { shorturlgenerator, analytic, geturl, deleteurl };
