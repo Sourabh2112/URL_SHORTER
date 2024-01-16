@@ -1,9 +1,11 @@
 const express = require("express");
 const url = require("../models/url-model");
+const { checkAuth } = require("../middleware/auth");
+
 
 const router = express.Router();
 
-router.get("/", async (req, res) => {
+router.get("/", checkAuth, async (req, res) => {
   const allurls = await url.find({});
   return res.render("home", {
     urls: allurls,

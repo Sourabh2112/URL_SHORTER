@@ -1,6 +1,6 @@
 const express = require("express");
 const { connectdatabase } = require("./connect");
-const { restrictToLoggedinUserOnly, checkAuth } = require("./middleware/auth");
+const { restrictToLoggedinUserOnly } = require("./middleware/auth");
 const cookieParser = require("cookie-parser");
 
 const urlroute = require("./routes/url-route");
@@ -24,7 +24,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-app.use("/", checkAuth, staticroute);
+app.use("/", staticroute);
 app.use("/url", restrictToLoggedinUserOnly, urlroute);
 app.use("/user", userRoute);
 
